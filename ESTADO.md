@@ -1,14 +1,14 @@
-# VICE MAPS | Registro acumulativo V05
+# VICE MAPS | Registro acumulativo V06
 Fecha: 24 de noviembre de 2026. Estado de código, no certificación de funcionamiento en dispositivo.
 
-| Apartado | Incorporado en V01–V05 | Pendiente o limitado |
+| Apartado | Incorporado en V01–V06 | Pendiente o limitado |
 |---|---|---|
 | A. Cartografía | Mapa vectorial, perspectiva, zoom, rotación, edificios 3D, nombres, agua, espacios verdes, brújula, temas día/atardecer/noche, controles de edificios y etiquetas. | Relieve, satélite, medición, interiores, pisos, calidad del aire, alertas meteorológicas, fotorrealismo; transición solar gradual. |
 | B. GPS | Posición en vivo; navegación activa giro a giro; voz en español si disponible; próximo giro y calle; distancia y tiempo restante, ETA sin tráfico; velocímetro, cámara adaptativa, orientación por sensor o desplazamiento; ajuste aproximado a la ruta; detección de desvío con tres lecturas precisas; recálculo online; rotondas y carriles cuando el motor los devuelve; llegada, listado de giros, silencio, recentrado y salida. | Pruebas de conducción y voz iPhone; ajuste profesional a red vial, velocidad máxima, exceso de velocidad, iconos alternativos de vehículo, música, puntos de referencia, segundo plano y pantalla bloqueada. |
 | C. Rutas | Auto, bici y a pie vía OSRM; origen independiente por búsqueda, coordenadas, guardado o centro; hasta ocho paradas ordenables, editables y eliminables, inversión, itinerarios guardados y compartidos; recálculo conserva las paradas pendientes. TomTom opcional: moto (beta), preferencias de peajes/autopistas/ferris/caminos sin pavimentar, más corta y eco, predicción por horario con paradas. Alternativas simples con comparación temporal cuando el motor las devuelve. | Moto y preferencias requieren clave autorizada; las restricciones son preferencias y no garantías. Alternativas para multiparada, optimización automática del orden, accesibilidad, combustible, tarifas, llegada objetivo y validación real pendientes. |
-| D. Búsqueda | Photon por texto, sugerencias con pausa, sesgo geográfico, historial local, selección de puntos por pulsación larga. | Coordenadas escritas en el buscador principal (ya disponibles en el editor de recorrido), geocodificación inversa, voz, fotos, IA, mejoras de precisión. |
-| E. Lugares | Ocho accesos por categoría (búsqueda textual aproximada), marcadores de resultados, fichas con datos básicos disponibles, distancia en línea recta, enlaces a Google Maps. | Horarios, teléfonos, web, fotos, accesibilidad, precios, reservas, reseñas, estrellas, concurrencia. No extrae ni inventa datos Google. |
-| F. Transporte público | Sin módulo específico. | Paradas, líneas, horarios, combinaciones, tarifas y tiempo real vía GTFS donde exista. |
+| D. Búsqueda | Photon por texto, sugerencias con pausa, sesgo geográfico, historial local, selección de puntos por pulsación larga. V06: exploración categórica Overpass, radio GPS/centro, área visible, filtros locales y fichas enriquecidas por ID OSM. | Coordenadas escritas en el buscador principal (ya disponibles en el editor de recorrido), geocodificación inversa, voz, fotos, IA, mejoras de precisión. |
+| E. Lugares | 36 categorías con SVG propios, marcadores y fichas OSM; búsqueda por radio/área, nombre, accesibilidad, horario interpretable, orden por distancia/nombre; teléfono, web, dirección, horarios, datos hoteleros, cocina, reservas/menú y otros campos cuando existen. Fotos Commons bajo demanda con licencia comprobable. Enlaces a OSM y Google Maps; componente oficial Google Places UI Kit opcional para consultar valoraciones. | Datos dependen de cobertura OSM; horarios estimados o desconocidos según reglas y zona; fotos solo si existe referencia y licencia. Google UI Kit requiere clave y facturación, no probado con credenciales; no se copian reseñas o puntuaciones en el mapa. Precios actuales, concurrencia, espera, pedidos integrados y reseñas completas pendientes. |
+| F. Transporte público | V06: categorías de paradas y estaciones OSM, sin módulo específico de rutas u horarios. | Paradas, líneas, horarios, combinaciones, tarifas y tiempo real vía GTFS donde exista. |
 | G. Tráfico | Adaptador TomTom: capas de congestión e incidentes, rutas optimizadas y predicción histórica, estimación de demora, revisión opcional cada 3 min para ruta rápida sin paradas y oferta de alternativa si ahorra ≥2 min y ≥12% frente al ETA restante previo. | Requiere clave, cobertura, condiciones y cuota; pruebas con tráfico real pendientes; revisión periódica con paradas y criterios eco/corta, fichas detalladas de incidentes, velocidad por segmento, reportes y actualización exacta del ETA de la misma ruta pendientes. |
 | H. Guardados | Favoritos, Casa, Trabajo, Quiero visitar; recientes; eliminar lugares y recientes. | Listas personalizadas, notas, estacionamiento, guardar geometrías de múltiples rutas (ya se guardan itinerarios de puntos), exportación, sincronización, colaboración. |
 | I. Offline | Geometría, pasos y datos de ruta OSRM persistidos localmente; TomTom en memoria mientras la sesión siga abierta, sin persistencia de resultados del proveedor; progreso e instrucciones en pantalla sin conexión mientras se dispone de la posición GPS; desvío sin recálculo offline; shell cacheado y precarga del motor cuando la conexión lo permite. | Descarga automática del corredor, teselas y fuentes offline, garantía de arranque frío, validación real de guía y síntesis de voz offline, gestión de descargas. No recalcula offline. |
@@ -24,7 +24,7 @@ Fecha: 24 de noviembre de 2026. Estado de código, no certificación de funciona
 - Tráfico: evaluar TomTom/HERE para rutas actuales y futuras con datos históricos; comprobar cobertura local, atribución y límites. Waze requiere acceso de socio. Sin clave autorizada se mantiene OSRM sin tráfico.
 - Offline: conservar ruta automáticamente y mantener GPS; no exigir recálculo offline. Descargas cartográficas deben respetar condiciones del proveedor.
 - Reportar incorporado, parcial, pendiente, dependencias, bloqueos y pruebas reales con cada versión.
-- V03: navegación activa implementada con pruebas simuladas. V04: integración TomTom opcional, condicionada a clave, autorización de uso, cuota y cobertura; sin clave sigue OSRM. V05: planificación avanzada incorporada con límites indicados. V06: establecimientos y valoraciones.
+- V03: navegación activa implementada con pruebas simuladas. V04: integración TomTom opcional, condicionada a clave, autorización de uso, cuota y cobertura; sin clave sigue OSRM. V05: planificación avanzada incorporada con límites indicados. V06: establecimientos, iconografía y valoraciones opcionales; V07: descarga automática del corredor cartográfico.
 
 ## Referencias técnicas
 https://openfreemap.org/tos/
@@ -58,3 +58,36 @@ https://developers.google.com/maps/documentation/places/web-service/policies
 - Se desactiva la revisión periódica de tráfico para rutas con paradas o criterios no rápidos, para no sugerir alternativas incompatibles. Se conserva revisión de rutas rápidas directas con las restricciones elegidas. El recálculo por desvío permanece operativo. La predicción TomTom usa origen, paradas, perfil y preferencias. No hay cambio automático de orden ni cálculo de rutas alternativas multiparada.
 - Pruebas Node: 5 suites, incluidas las 3 de V03/V04 y dos nuevas para coordenadas, límites, URL multipunto, restricciones, ranking, adaptación de respuestas sintéticas, maniobras intermedias, seguimiento simulado, llegada y parada omitida offline. No se comprobó CORS, respuestas reales, tráfico, renderizado, GPS o voz en iPhone. El comportamiento de TomTom requiere clave y condiciones compatibles. No usar como único navegador hasta probarlo estacionado o como acompañante.
 - Referencias: https://project-osrm.org/docs/v5.15.2/api/ ; https://docs.tomtom.com/routing-api/documentation/tomtom-maps/v1/calculate-route
+
+
+## V06 — Establecimientos, valoraciones e iconografía
+
+🟢 Código incorporado: 36 categorías con símbolos SVG originales inspirados en la referencia del usuario (cuadrado pastel, borde oscuro, símbolo monocromático). No se modificaron los iconos de instalación. Consulta Overpass por etiquetas OSM, radio de 500 m/1/2/5 km alrededor de GPS o centro, o límites visibles (se exige acercar si el área es grande). Se consultan hasta 251 objetos para detectar truncamiento; se ordenan hasta 250 y muestran hasta 60. No es un censo exhaustivo ni garantiza que estén los más cercanos si la consulta se trunca. Consultas explícitas, pausa de 2,5 s, caché temporal en memoria de 3 min y hasta 12 consultas, cancelación al cambiar de búsqueda.
+
+🟢 Filtros por nombre, distancia/nombre, accesibilidad explícita y estado de horario interpretable. No se excluye permanentemente lo desconocido: desactivar filtros para ver más resultados. Fichas con los campos OSM presentes, enlaces, llamada, coordenadas y distancia recta. Photon conserva búsqueda de direcciones y se enriquece por ID OSM al elegir un resultado.
+
+🟡 Horarios: 24/7 y subconjunto conservador de reglas semanales, intervalos y cruces de medianoche. Feriados, excepciones, reglas superpuestas u otros formatos complejos quedan desconocidos. Sin zona horaria, solo se evalúa 24/7, salvo si el GPS está a menos de 25 km y puede aproximarse con hora del dispositivo (se etiqueta como estimada). No es confirmación en vivo ni contempla cierres imprevistos.
+
+🟡 Fotografías: solo archivos referenciados por OSM; vista previa de Commons al solicitarla, con autor y licencia reconocida y enlace al original; si falta metadata o licencia se ofrece enlace. No se buscan fotografías por similitud ni se reutilizan fotos de Google.
+
+🟡 Valoraciones: enlace gratuito a ficha/búsqueda externa de Google Maps (verificar coincidencia), y panel opcional que carga Google Places UI Kit únicamente tras introducir una clave de navegador y aceptar explícitamente una consulta. El widget muestra resultados de búsqueda con nombre, dirección y puntuaciones oficiales cuando existan. No se asume coincidencia exacta ni se extraen, almacenan o mezclan puntuaciones. La clave permanece en memoria de sesión y es visible para el navegador; restringir por dominio y API en Google Cloud. Requiere proyecto con facturación; no está activo por defecto, no es garantía de gratuidad, ni se ha verificado con clave real. Foursquare ofrece datos Premium sujetos a precio; no integrado. No hay reseñas completas internas, ni precios/concurrencia/espera en vivo.
+
+## Verificación V06
+- Sintaxis de todos los JS, IDs únicos, referencias HTML/manifest/Service Worker y seis suites Node (cinco heredadas más places.test.cjs) correctas.
+- Intento de ejecutar Chromium con servicios simulados bloqueado por política del entorno (ERR_BLOCKED_BY_ADMINISTRATOR); no se certifica navegador, WebGL, CORS, cobertura, Google UI Kit, fotos reales ni Safari/iPhone. Se incluye tests/browser-smoke.py como prueba reproducible pendiente de ejecución local.
+- Se conservan sin cambios los módulos nav-core, navigation, traffic-core, traffic, plan-core, planning, manifest e iconos de instalación originales. Cambios de integración en app.js, index.html, style.css y sw.js. Nuevos places-core.js, places.js, ratings.js y privacidad.html.
+
+## Fuentes de V06
+- https://dev.overpass-api.de/overpass-doc/en/preface/commons.html
+- https://dev.overpass-api.de/command_line.html
+- https://wiki.openstreetmap.org/wiki/Key:opening_hours
+- https://commons.wikimedia.org/wiki/Commons:Machine-readable_data
+- https://developers.google.com/maps/documentation/places/web-service/policies
+- https://developers.google.com/maps/architecture/places-ui-kit-getting-started
+- https://developers.google.com/maps/documentation/javascript/places-ui-kit/get-started
+- https://developers.google.com/maps/documentation/javascript/places-ui-kit/place-search
+- https://developers.google.com/maps/billing-and-pricing/pricing
+- https://foursquare.com/pricing/
+
+## Próximas etapas
+V01–V05: conservadas. V06: código incorporado con dependencias y pruebas pendientes. V07: descarga automática de mapas offline vinculada al corredor seleccionado (verificar licencia y límites del proveedor). V08: historial y progreso. V09: transporte público. V10: funciones sociales. V11: integración iOS. V12: IA.
