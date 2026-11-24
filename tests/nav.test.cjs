@@ -1,0 +1,7 @@
+const assert=require('node:assert/strict'),nav=require('../nav-core.js');
+const a=[-58.4,-34.6],b=[-58.399,-34.6],c=[-58.399,-34.599],d=[-58.398,-34.599];
+const step=(type,modifier,name,dist,duration,extra={})=>({maneuver:{type,modifier,...extra},name,distance:dist,duration});
+const ab=nav.distance(a,b),bc=nav.distance(b,c),cd=nav.distance(c,d),route={distance:ab+bc+cd,duration:60,geometry:{coordinates:[a,b,c,d]},legs:[{steps:[step('depart','straight','Primera',ab,20),step('turn','left','Segunda',bc,30),step('roundabout','right','Tercera',cd,10,{exit:2}),step('arrive','straight','',0,0)]}]};
+const model=nav.build(route);const p=nav.progress(model,0);assert.equal(p.next.icon,'←');assert.ok(Math.abs(p.toTurn-ab)<1);assert.equal(p.seconds,60);
+const midpoint=[(a[0]+b[0])/2,a[1]],m=nav.match(model,midpoint,0,90);assert.ok(m.error<1);assert.ok(Math.abs(m.along-ab/2)<1);assert.ok(Math.abs(nav.progress(model,m.along).seconds-50)<1);
+assert.equal(nav.progress(model,ab+5).next.icon,'⟳');assert.match(nav.progress(model,ab+5).next.text,/salida 2/);assert.ok(nav.match(model,[-58.41,-34.61]).error>100);assert.equal(nav.progress(model,model.total).remaining,0);assert.equal(nav.progress(model,model.total).seconds,0);assert.match(nav.instruction(step('turn','uturn','',0,0)).text,/giro en U/);assert.throws(()=>nav.build({geometry:{coordinates:[a,b]}}));console.log('PASS: 12 assertions, route projection, turn progression, duration, roundabout, deviation, arrival, invalid route');

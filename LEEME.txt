@@ -1,25 +1,34 @@
-VICE MAPS / V.01 — prototipo personal no oficial
+VICE MAPS — V05 / 24-11-2026
+Prototipo personal PWA. No es un producto oficial de Google ni Rockstar.
 
-INSTALACIÓN GRATUITA (desde Windows, Mac o Linux)
-1. Extraer todos los archivos del ZIP. No abrir index.html directamente como instalación.
-2. Ingresar en https://github.com/new y crear un repositorio público, por ejemplo vice-maps.
-3. En el repositorio, Add file > Upload files. Subir todos los archivos extraídos a la raíz y confirmar (Commit changes).
-4. Settings > Pages > Build and deployment: Deploy from a branch. Seleccionar main y / (root), Save. Abrir la URL HTTPS que indica Pages cuando termine el despliegue.
-5. En iPhone abrir esa URL en Safari > Compartir > Agregar a pantalla de inicio. Activar Abrir como app web si aparece. Agregar.
-6. Abrir Vice Maps desde su icono y pulsar GPS; conceder permiso de ubicación.
+INSTALACIÓN / ACTUALIZACIÓN
+1. Descomprimí el ZIP. Subí TODOS los archivos a la raíz del repositorio GitHub Pages de la V04, sustituyendo sus versiones anteriores. Si no tenés repositorio, creá uno público, subí los archivos y activá Settings > Pages > Deploy from a branch > main > /root.
+2. Abrí la URL HTTPS en Safari del iPhone. Compartir > Agregar a pantalla de inicio. Si ya está instalada, cerrala y reabrila con Internet para actualizar. Puede requerir una recarga adicional.
+3. Autorizá GPS. Probá búsqueda, destinos, las modalidades básicas y guardados. Trazá ruta, pulsá INICIAR NAVEGACIÓN y autorizá GPS. La pantalla muestra próxima maniobra, velocidad, distancia, tiempo restante y ETA. GIROS abre la lista; VOZ activa/desactiva la síntesis; RECENTRAR recupera seguimiento; × termina sin borrar la ruta. El origen es la ubicación GPS disponible o el centro del mapa. Si no hay GPS, mové el mapa al origen antes de calcular.
+4. Para comprobar conservación de ruta, calculá una con Internet, activá GPS y apagá datos/Wi-Fi. La geometría OSRM permanece en memoria y se guarda localmente. La ruta TomTom queda en memoria mientras la sesión siga abierta, no se guarda en disco. Las teselas que falten podrían no verse: no hay descarga cartográfica completa ni recálculo offline. La navegación activa puede continuar mostrando instrucciones si recibe GPS y conserva la ruta. No se garantiza voz sin conexión ni cartografía de áreas no descargadas.
 
-USO
-- Día, atardecer, noche y automático (horario local fijo: día 07–18, atardecer 18–21, noche 21–07).
-- 3D/2D, zoom, norte. Usar gestos habituales del mapa.
-- Buscar una dirección con ciudad y provincia (no autocompleta). Seleccionar un resultado o mantener pulsado el mapa para elegir destino.
-- Trazar ruta utiliza GPS si está disponible o el centro del mapa como origen. Si no hay GPS, colocar el centro del mapa en el punto de partida antes de calcular. Ruta de auto aproximada. Pulsar GPS para seguir tu posición.
-- Abrir en Maps entrega el destino a Google Maps; la navegación allí usa el estilo oficial de Google.
-- La aplicación inicia en el Obelisco de Buenos Aires como ejemplo, no como ubicación del usuario.
+FUENTES Y COSTOS
+MapLibre GL JS (CDN), OpenFreeMap, OpenStreetMap, Photon (servidor demo para uso moderado), OSRM/FOSSGIS (servidor público para uso moderado). El motor base no requiere claves; TomTom es opcional y requiere una clave propia y condiciones de uso compatibles. No se garantiza disponibilidad, cobertura, exactitud o gratuidad futura. No extrae datos de Google. Las consultas de lugares y rutas se envían a los respectivos proveedores; ubicación y guardados se almacenan localmente. Icono de GTA VI aportado por el usuario; uso personal, no afiliado a Rockstar.
 
-LIMITACIONES Y PRIVACIDAD
-- No es una app nativa ni modifica Google Maps. No es un producto de Rockstar Games ni Google.
-- Requiere internet para datos de mapas, búsquedas y rutas. El service worker solo guarda la interfaz local, no cartografía para uso offline.
-- Usa servicios públicos gratuitos sin garantía de disponibilidad. MapLibre desde unpkg, OpenFreeMap/OpenStreetMap, Nominatim (búsqueda bajo demanda y caché por sesión), OSRM/FOSSGIS (rutas bajo demanda). No hay claves ni servidor propio. Los proveedores reciben las solicitudes, incluidas coordenadas de origen y destino cuando se calcula una ruta; no se envían continuamente al servicio de rutas.
-- No hay tráfico en vivo, alertas, indicaciones giro a giro, recálculo automático ni navegación con pantalla bloqueada. Las alturas 3D dependen de datos disponibles y pueden ser estimadas.
-- El alojamiento GitHub Pages gratuito es público: quien conozca el enlace podrá abrirlo. El GPS depende de los permisos de cada dispositivo; no hay cuenta ni publicación de ubicación.
-- Validación realizada: sintaxis JavaScript, manifest y contenido del ZIP. No se pudo probar la conexión a los servicios externos desde el entorno de creación ni en un iPhone real. Revisar funcionamiento antes de utilizar para desplazamientos.
+PRUEBAS REALIZADAS
+Sintaxis JavaScript, referencias a IDs HTML, manifiesto JSON y pruebas unitarias/controlador simulado (node tests/nav.test.cjs y node tests/navigation.test.cjs). También node tests/traffic.test.cjs con respuestas sintéticas. No se realizó prueba de navegador ni consulta real a TomTom en V05. No se probó en Safari/iPhone ni conectividad real. No usar como único navegador hasta verificarlo, y realizar las pruebas estacionado o como acompañante. Leer ESTADO.md para limitaciones y próximos pasos.
+
+Si el icono anterior sigue visible, eliminá el acceso directo de la pantalla de inicio y agregalo nuevamente desde Safari.
+
+ACTIVAR TRÁFICO Y PREDICCIONES
+1. Entrá a https://docs.tomtom.com/platform/documentation/my-tomtom/how-to-get-a-tomtom-api-key y creá una clave en MyTomTom. Antes de activarla, revisá que tu plan autorice rutas guiadas y capas con cartografía externa, la atribución exigida, las cuotas y las condiciones de facturación. Configurá restricciones de dominio y de productos/consumo. No se incluye clave.
+2. En Vice Maps abrí Ajustes > Tráfico y predicciones (o el botón ▥). Pegá la clave y guardala localmente. No subas la clave a GitHub. La clave es visible al navegador y no es secreta: para una publicación general se requiere un diseño seguro. La API recibe coordenadas de origen y destino y, para las capas, el área visible.
+3. Pulsá Probar clave y cobertura; si responde, activá la capa de congestión, incidentes y/o revisión automática si las necesitás. La ruta rosa sigue visible. Un tramo sin color no significa que esté libre de tráfico.
+4. Seleccioná un destino de auto y trazá ruta. Se consulta TomTom si está configurado, y OSRM sin tráfico si no está disponible. Se identifica la fuente y se muestran los tiempos devueltos. Para estimar un horario futuro, pulsá Planificar horario y elegí fecha/hora (zona horaria del dispositivo). No reemplaza la ruta de hoy.
+5. La revisión opcional cada 3 minutos ofrece una alternativa si estima ahorrar 2 minutos y 12% frente al tiempo restante previo. Es una comparación aproximada, no garantiza ahorro. No interactúes conduciendo: aceptá únicamente estacionado o mediante un acompañante.
+6. Si perdés Internet, el GPS y la ruta actual pueden seguir mientras la app esté abierta. No hay tráfico ni recálculo offline. La ruta TomTom no se restaura tras recargar/cerrar; OSRM sí.
+7. El límite local de 100 consultas de rutas por sesión NO es un tope de gasto; no cubre las teselas ni otras sesiones. El plan y la configuración del proveedor determinan cualquier cargo. Si no querés riesgo de cargos, no actives un plan con facturación por excedentes.
+
+NOVEDADES V05 / PLANIFICAR RECORRIDO
+1. Elegí un destino y pulsá EDITAR RECORRIDO. Tocá el origen para seleccionar GPS, dirección, coordenadas, lugar guardado o centro del mapa. Podés elegir otro destino desde el mismo editor. Si querés usar el centro, ubicá el mapa previamente.
+2. Agregá hasta 8 paradas con + AGREGAR PARADA. Las flechas cambian el orden y × elimina una parada. Pulsá INVERTIR RECORRIDO para invertir el orden y cambiar origen/destino.
+3. AUTO, BICI y A PIE funcionan con OSRM sin clave para preferencias normales. MOTO (beta), evitar peajes/autopistas/ferris/caminos sin pavimentar, más corta y eco requieren TomTom habilitado y cobertura. Evitar es una preferencia, no una garantía. No se simula una ruta de moto con el perfil auto. Las preferencias avanzadas no funcionan con bici/a pie: volvé a Más rápida y desmarcá las restricciones.
+4. CALCULAR RECORRIDO calcula el itinerario. El GPS muestra la próxima parada y, si te desviás, intenta conservar las pendientes. Para comenzar desde un origen manual, activá GPS y acercate al punto inicial. Sin conexión, no puede recalcular. La ruta de TomTom sigue solo en memoria. No se conservan necesariamente las paradas ya visitadas si cerrás la app.
+5. GUARDAR ITINERARIO guarda los puntos y preferencias (no resultados de TomTom). Accedé desde GUARDADOS > ITINERARIOS GUARDADOS. COMPARTIR ITINERARIO comparte texto. Los enlaces externos de Google tienen sus propios límites de paradas y modalidades.
+6. La comparación automática de tráfico cada 3 minutos queda limitada a rutas rápidas sin paradas; las preferencias elegidas se conservan. La predicción de horario admite paradas. No se ofrecen alternativas multiparada, optimización del orden ni litros estimados.
+7. Pruebas adicionales: node tests/plan.test.cjs y node tests/planning-nav.test.cjs. No se probó en un iPhone.
