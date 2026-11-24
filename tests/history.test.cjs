@@ -1,0 +1,18 @@
+const assert=require('node:assert/strict'),H=require('../history-core.js');
+const start=new Date(2026,10,24,10).getTime(),fix=(lon,lat,t,accuracy=5)=>({coords:{longitude:lon,latitude:lat,accuracy},timestamp:start+t});
+const t=H.create({id:'1',mode:'car',name:'Casa & <viaje>',now:start});
+assert.equal(H.sample(t,fix(-58.4,-34.6,0),start),true);
+assert.equal(H.sample(t,fix(-58.4,-34.6,1000),start+1000),false);
+assert.equal(H.sample(t,fix(-58.399,-34.6,10000,80),start+10000),false);
+assert.equal(H.sample(t,fix(-58.399,-34.6,10000),start+10000),true);
+assert.ok(t.meters>85&&t.meters<100);assert.equal(t.seconds,10);assert.equal(t.moving,10);
+assert.equal(H.sample(t,fix(-58.399,-34.6,25000),start+25000),true);assert.equal(t.seconds,25);assert.equal(t.moving,10);
+const m=t.meters;assert.equal(H.sample(t,fix(-57,-33,30000),start+30000),false);assert.equal(H.sample(t,fix(-57,-33,40000),start+40000),true);assert.equal(t.meters,m);assert.equal(t.points.at(-1)[4],1);
+assert.equal(H.sample(t,fix(-57.01,-33,120000),start+120000),true);assert.equal(t.meters,m);assert.equal(t.seconds,25);assert.equal(H.segments(t).length,3);
+assert.equal(H.sample(t,fix(-57.01,-33,120000),start+120000),false);
+assert.equal(H.sample(t,fix(-57.01,-33,130000),start+160000),false);
+H.visit(t,'Parada',[-57,-33],start+40000);const done=H.finish(t,'arrived');assert.equal(done.state,'arrived');assert.equal(done.last,null);assert.equal(done.day,'2026-11-24');assert.equal(H.select([done],'month','2026-11').length,1);assert.equal(H.select([done],'day','2026-11-23').length,0);assert.equal(H.select([done],'year','2026').length,1);assert.equal(H.stats([done]).visits,1);assert.equal(H.stats([done]).arrivals,1);assert.equal(H.stats([done]).meters,m);
+assert.ok(H.zones([done]).length>=2);assert.ok(H.geo([done],'zones').features.every(f=>f.geometry.type==='Polygon'));assert.equal(H.geo([done]).features.length,3);const gpx=H.gpx([done]);assert.match(gpx,/Casa &amp; &lt;viaje&gt;/);assert.equal((gpx.match(/<trkseg>/g)||[]).length,3);
+const long=H.create({id:'long',now:start});for(let i=0;i<H.MAX_POINTS+10;i++)H.sample(long,fix(-58.4,-34.6,i*15000),start+i*15000);assert.equal(long.points.length,H.MAX_POINTS);assert.equal(long.truncated,true);assert.equal(long.points.at(-1)[4],1);assert.equal(long.seconds,(H.MAX_POINTS+9)*15);assert.equal(H.retain(Array.from({length:100},(_,i)=>({...done,id:String(i),start:i}))).length,H.MAX_TRIPS);
+const total=H.retain(Array.from({length:60},(_,i)=>({...long,id:String(i),start:i})));assert.ok(total.reduce((sum,x)=>sum+x.points.length,0)<=H.MAX_TOTAL);
+console.log('PASS: real GPS samples, jitter, gaps, jumps, stale timestamps, visits, date filters, zones, GPX escaping and storage limits');

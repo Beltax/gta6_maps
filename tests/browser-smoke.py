@@ -38,6 +38,16 @@ with sync_playwright() as p:
     page.locator('#closesheet').click();page.locator('#planbutton').click();assert page.locator('#sheet').is_visible();page.locator('#closesheet').click();page.locator('#clear').click()
     page.wait_for_timeout(2600);page.locator('[data-poi-cat="cafe"]').click();page.wait_for_function('document.querySelectorAll("#results button").length===1') # persisted filters
     page.locator('#explorescope').select_option('viewport');page.wait_for_timeout(2600);page.locator('#explorego').click();page.wait_for_function('document.querySelectorAll("#results button").length===1');assert any('26.82000' in str(x) for x in calls)
+    page.locator('[data-tab="history"]').click()
+    assert 'PROGRESO / HISTORIAL' in page.locator('#sheettitle').inner_text()
+    assert page.locator('.history-metric').count()==6
+    page.get_by_role('button',name='○ Activar registro GPS',exact=True).click()
+    assert page.get_by_role('button',name='✓ Registro GPS',exact=True).is_visible()
+    page.get_by_role('button',name='○ Incógnito',exact=True).click()
+    assert 'INCÓGNITO ACTIVADO' in page.locator('#sheetbody').inner_text()
+    page.get_by_role('button',name='✓ Incógnito',exact=True).click()
+    assert 'Sin viajes para este período' in page.locator('#sheetbody').inner_text()
+    assert page.locator('.history-day').count()>=28
     assert not errors,errors
     browser.close()
 print('PASS: Chromium 390×844 mobile emulation, mock MapLibre and Overpass, category search, markers, filters, details, Google opt-in, planning and viewport query')

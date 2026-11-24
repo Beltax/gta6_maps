@@ -1,0 +1,14 @@
+name = "vice-maps-social"
+main = "worker.mjs"
+compatibility_date = "2026-11-24"
+workers_dev = true
+[vars]
+APP_ORIGIN = "https://REEMPLAZAR.github.io"
+[[d1_databases]]
+binding = "DB"
+database_name = "vice-social"
+database_id = "REEMPLAZAR"
+[triggers]
+crons = ["*/15 * * * *"]
+[observability]
+enabled = false

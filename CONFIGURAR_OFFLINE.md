@@ -1,0 +1,19 @@
+# VICE MAPS V07 — Activar descarga automática del corredor
+
+La PWA funciona sin este paso, pero solo conserva cartografía ya visualizada. OpenFreeMap exige un User-Agent identificable para las descargas offline; los navegadores no garantizan que se envíe un encabezado personalizado. Por eso no se hacen descargas anticipadas directas. Incluimos un intermediario privado, no desplegado ni probado con el proveedor real. No se usan teselas de Google ni del servidor público de OSM para precarga.
+
+## Configuración de una sola vez
+1. Abrí https://dash.cloudflare.com/ y creá una cuenta si no tenés una. Elegí el plan Workers Free (no actives un plan pago). La cuota pública al 24/11/2026 es 100.000 solicitudes al día, sujeta a cambios. Revisá https://developers.cloudflare.com/workers/platform/limits/.
+2. En Workers & Pages creá un Worker JavaScript (Hello World). En el editor sustituí su código con el contenido de `proxy/worker.mjs` y desplegalo. No subas tokens al repositorio.
+3. En Settings > Variables and Secrets configurá `APP_ORIGIN` con el origen exacto de GitHub Pages, por ejemplo `https://TU-USUARIO.github.io` (sin barra final ni carpeta). Configurá `APP_CONTACT` con un correo de contacto tuyo; se envía al proveedor en el User-Agent. Configurá `OFFLINE_TOKEN` como Secret, con un valor aleatorio largo (por ejemplo generado por un gestor de contraseñas). Volvé a desplegar si es necesario.
+4. Copiá la URL HTTPS de tu Worker, normalmente `https://nombre.subdominio.workers.dev`. En Vice Maps > Ajustes > Mapas offline, ingresá URL y token, marcá la descarga automática y guardá. El token se conserva localmente en el navegador, no en el ZIP ni en GitHub. No lo compartas. El proxy recibe las URLs de teselas (que revelan el corredor aproximado) y tu IP; usa un dominio y un token privados. El origen se valida, y solo se admiten recursos de teselas/fuentes del host OpenFreeMap; no es un proxy general. Si publicás la PWA, no compartas las credenciales del Worker.
+5. Abrí la app online y recargá hasta que el Service Worker controle la página. Elegí OSRM (deshabilitá TomTom para el cálculo si hace falta). Trazá una ruta corta. Verificá la descarga; si falla, revisá la consola de red y los logs del Worker, el token, el origen y el proveedor. El Worker establece un User-Agent propio en la solicitud saliente; todavía no se ha verificado en producción que el proveedor lo reciba. No habilites su uso continuado si la identificación o autorización no se confirma.
+
+## Prueba en iPhone (estacionado)
+- Calculá una ruta de pocos kilómetros desde tu ubicación, esperá el estado de descarga completa y activá GPS.
+- Iniciá navegación, desactivá Wi-Fi y datos móviles (verificá permisos GPS), comprobá el mapa y la ruta, las maniobras y la velocidad. Mové la cámara dentro del corredor y probá el zoom. La cartografía incompleta debe aparecer como tal; no uses Vice Maps como único navegador.
+- Probá cerrar y reabrir offline solo después de comprobar el shell. Las rutas OSRM pueden restaurarse; TomTom no se restaura al cerrar. Si iOS borra datos o el motor no se almacenó, la app puede no arrancar.
+- Recuperá Internet y comprobá que el recálculo funcione. Ajustes > Mapas offline permite borrar, actualizar y consultar el tamaño estimado.
+
+## Límites
+La descarga se inicia tras una acción del usuario (trazar o seleccionar una ruta OSRM), con consentimiento previo. El recálculo automático no inicia nuevas descargas. Se hace una solicitud secuencial por recurso, hasta 1.000 teselas y 40 MiB por paquete (por debajo de los límites oficiales). Si se corta, no se simula éxito: se indica parcial. El paquete no es garantía de disponibilidad offline. Solo se guarda una descarga a la vez; para recorridos muy largos, planificá tramos independientes manualmente. El proveedor, Safari y el alojamiento pueden imponer otros límites. Consultá https://openfreemap.org/tos/.

@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS shares (
+ id TEXT PRIMARY KEY, reader TEXT NOT NULL, writer TEXT NOT NULL,
+ expires INTEGER NOT NULL, updated INTEGER NOT NULL DEFAULT 0, payload TEXT
+);
+CREATE INDEX IF NOT EXISTS shares_expiry ON shares(expires);
