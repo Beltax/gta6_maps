@@ -1,0 +1,25 @@
+VICE MAPS / V.01 — prototipo personal no oficial
+
+INSTALACIÓN GRATUITA (desde Windows, Mac o Linux)
+1. Extraer todos los archivos del ZIP. No abrir index.html directamente como instalación.
+2. Ingresar en https://github.com/new y crear un repositorio público, por ejemplo vice-maps.
+3. En el repositorio, Add file > Upload files. Subir todos los archivos extraídos a la raíz y confirmar (Commit changes).
+4. Settings > Pages > Build and deployment: Deploy from a branch. Seleccionar main y / (root), Save. Abrir la URL HTTPS que indica Pages cuando termine el despliegue.
+5. En iPhone abrir esa URL en Safari > Compartir > Agregar a pantalla de inicio. Activar Abrir como app web si aparece. Agregar.
+6. Abrir Vice Maps desde su icono y pulsar GPS; conceder permiso de ubicación.
+
+USO
+- Día, atardecer, noche y automático (horario local fijo: día 07–18, atardecer 18–21, noche 21–07).
+- 3D/2D, zoom, norte. Usar gestos habituales del mapa.
+- Buscar una dirección con ciudad y provincia (no autocompleta). Seleccionar un resultado o mantener pulsado el mapa para elegir destino.
+- Trazar ruta utiliza GPS si está disponible o el centro del mapa como origen. Si no hay GPS, colocar el centro del mapa en el punto de partida antes de calcular. Ruta de auto aproximada. Pulsar GPS para seguir tu posición.
+- Abrir en Maps entrega el destino a Google Maps; la navegación allí usa el estilo oficial de Google.
+- La aplicación inicia en el Obelisco de Buenos Aires como ejemplo, no como ubicación del usuario.
+
+LIMITACIONES Y PRIVACIDAD
+- No es una app nativa ni modifica Google Maps. No es un producto de Rockstar Games ni Google.
+- Requiere internet para datos de mapas, búsquedas y rutas. El service worker solo guarda la interfaz local, no cartografía para uso offline.
+- Usa servicios públicos gratuitos sin garantía de disponibilidad. MapLibre desde unpkg, OpenFreeMap/OpenStreetMap, Nominatim (búsqueda bajo demanda y caché por sesión), OSRM/FOSSGIS (rutas bajo demanda). No hay claves ni servidor propio. Los proveedores reciben las solicitudes, incluidas coordenadas de origen y destino cuando se calcula una ruta; no se envían continuamente al servicio de rutas.
+- No hay tráfico en vivo, alertas, indicaciones giro a giro, recálculo automático ni navegación con pantalla bloqueada. Las alturas 3D dependen de datos disponibles y pueden ser estimadas.
+- El alojamiento GitHub Pages gratuito es público: quien conozca el enlace podrá abrirlo. El GPS depende de los permisos de cada dispositivo; no hay cuenta ni publicación de ubicación.
+- Validación realizada: sintaxis JavaScript, manifest y contenido del ZIP. No se pudo probar la conexión a los servicios externos desde el entorno de creación ni en un iPhone real. Revisar funcionamiento antes de utilizar para desplazamientos.
